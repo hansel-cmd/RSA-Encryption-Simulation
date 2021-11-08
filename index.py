@@ -1,4 +1,4 @@
-from helper import Style
+from helper import Highlight
 
 
 def encrypt(plain_text, p, q):
@@ -7,7 +7,7 @@ def encrypt(plain_text, p, q):
     # compute z = (p-1)(q-1)
     z = (p - 1) * (q - 1)
 
-    print(f"{Style.GREEN}n is {n} \nz is {z}")
+    print(f"{Highlight.GREEN}n is {n} \nz is {z}")
 
     z_factors = get_factors_of_z(z)
     
@@ -24,32 +24,32 @@ def encrypt(plain_text, p, q):
     # the "ed - 1 is exactly divisible by z" condition
     # even if we loop until 10,000.
     new_possible_numbers = [i for i in possible_numbers if [j for j in range (1, 1000) if ((i * j) - 1) % z == 0]]
-    print(f"{Style.YELLOW}{new_possible_numbers}")
+    print(f"{Highlight.YELLOW}{new_possible_numbers}")
 
 
     while True:
-        e = input(f"{Style.WHITE}Please choose your e value in the list: ")
+        e = input(f"{Highlight.WHITE}Please choose your {Highlight.BLUE}e value {Highlight.WHITE}in the list: ")
         try:
             e = int(e)
             if e in new_possible_numbers: break
-            print(f"{Style.RED}Number is not in the list.")
+            print(f"{Highlight.RED}Number is not in the list.")
         except ValueError:
-            print(f"{Style.RED}Number is invalid.")
+            print(f"{Highlight.RED}Number is invalid.")
     
-    print(f"e is {e}")
+    print(f"{Highlight.GREEN}e is {e}")
 
     # find number d, such that ed - 1 is exactly divisible by z
     all_d_values = [i for i in range (1, 1000) if ((e * i) - 1) % z == 0]
-    print(all_d_values)
+    print(f"{Highlight.YELLOW}{all_d_values}")
     
     while True:
-        d = input(f"{Style.WHITE}Please choose your d value in the list: ")
+        d = input(f"{Highlight.WHITE}Please choose your {Highlight.BLUE}d value {Highlight.WHITE}in the list: ")
         try:
             d = int(d)
             if d in all_d_values: break
-            print(f"{Style.RED}Number is not in the list.")
+            print(f"{Highlight.RED}Number is not in the list.")
         except ValueError:
-            print(f"{Style.RED}Number is invalid.")
+            print(f"{Highlight.RED}Number is invalid.")
         
     # keys are generated using n, d, and e
     # Public key is (n, e)
@@ -63,7 +63,7 @@ def encrypt(plain_text, p, q):
         'n': n,
         'd': d
     }
-    print(f"{Style.GREEN}public_key: {public_key}\nprivate_key: {private_key}")
+    print(f"{Highlight.GREEN}public_key: {public_key}\nprivate_key: {private_key}")
 
 
 
@@ -94,19 +94,19 @@ def is_prime(number):
 
 
 def main():
-    plain_text = input(f"{Style.WHITE}Enter the text message you want to encrypt: ")
+    plain_text = input(f"{Highlight.WHITE}Enter the text message you want to encrypt: ")
 
     # Choose the first prime number [preferrably a large prime number]
     while True:
-        p = input(f"{Style.WHITE}Enter the value of first prime p: ")
+        p = input(f"{Highlight.WHITE}Enter the value of first prime p: ")
         if is_prime(p): break
-        print(f"{Style.RED}Sorry, input is not prime.")
+        print(f"{Highlight.RED}Sorry, input is not prime.")
 
     # Choose the second prime number [preferrably a large prime number]
     while True:
-        q = input(f"{Style.WHITE}Enter the value of second prime q: ")
+        q = input(f"{Highlight.WHITE}Enter the value of second prime q: ")
         if is_prime(q): break
-        print(f"{Style.RED}Sorry, input is not prime.")
+        print(f"{Highlight.RED}Sorry, input is not prime.")
 
     p = int(p)
     q = int(q)
