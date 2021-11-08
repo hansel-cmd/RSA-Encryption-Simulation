@@ -17,12 +17,12 @@ def encrypt(plain_text, p, q):
         e = input("Choose a number in the list: ")
         try:
             e = int(e)
-            if e in possible_numbers:
-                break
+            if e in possible_numbers: break
+            else: print("Number is not in the list.")
         except ValueError:
             print("Number is invalid.")
     
-    print(f"e is {e}")
+    
     
     
 
