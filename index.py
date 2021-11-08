@@ -22,35 +22,33 @@ def encrypt(plain_text, p, q):
     # factor with z = 24), but 9 and 10 do not have the 'd' that will satisfy 
     # the "ed - 1 is exactly divisible by z" condition
     # even if we loop until 10,000.
-    new_possible_numbers = [i for i in possible_numbers if [j for j in range (1, 100) if ((i * j) - 1) % z == 0]]
+    new_possible_numbers = [i for i in possible_numbers if [j for j in range (1, 1000) if ((i * j) - 1) % z == 0]]
     print(new_possible_numbers)
 
 
-    # while True:
-    #     e = input("Choose a number in the list: ")
-    #     try:
-    #         e = int(e)
-    #         if e in possible_numbers: break
-    #         else: print("Number is not in the list.")
-    #     except ValueError:
-    #         print("Number is invalid.")
+    while True:
+        e = input("Choose a number in the list: ")
+        try:
+            e = int(e)
+            if e in new_possible_numbers: break
+            print("Number is not in the list.")
+        except ValueError:
+            print("Number is invalid.")
     
-    # print(f"e is {e}")
+    print(f"e is {e}")
 
     # find number d, such that ed - 1 is exactly divisible by z
-    # ed - 1
-    # 9 * d - 1 
-
-    # z = 24
-    # for i in range (1, 100):
-    #     if ((e * i) - 1) % z == 0:
-    #         print(i)
-
-    # my_z = [z * i for i in range (2, 1000, 2)]
-    # print(my_z)
-
-    # my_ed = [(e * i) - 1 for i in range (1, 1000)]
-    # print(my_ed)
+    all_d_values = [i for i in range (1, 1000) if ((e * i) - 1) % z == 0]
+    print(all_d_values)
+    
+    while True:
+        d = input("Please choose your d value in the list: ")
+        try:
+            d = int(d)
+            if d in all_d_values: break
+            print("Number is not in the list.")
+        except ValueError:
+            print("Number is invalid.")
 
 
     
