@@ -1,3 +1,6 @@
+
+
+
 def encrypt(plain_text, p, q):
     # compute n = pq
     n = p * q
@@ -11,8 +14,6 @@ def encrypt(plain_text, p, q):
     # choose number e, less than n, 
     # which has no common factor with z
     possible_numbers = [i for i in range(1, n) if i not in z_factors]
-    print(possible_numbers)
-    
 
     # we need to remove numbers in the list that do not have any number that
     # satisfies the next step: 
@@ -27,7 +28,7 @@ def encrypt(plain_text, p, q):
 
 
     while True:
-        e = input("Choose a number in the list: ")
+        e = input("Please choose your e value in the list: ")
         try:
             e = int(e)
             if e in new_possible_numbers: break
@@ -49,6 +50,22 @@ def encrypt(plain_text, p, q):
             print("Number is not in the list.")
         except ValueError:
             print("Number is invalid.")
+        
+    # keys are generated using n, d, and e
+    # Public key is (n, e)
+    # Private key is (n, d)
+    public_key = {
+        'n': n,
+        'e': e
+    }
+
+    private_key = {
+        'n': n,
+        'd': d
+    }
+    print(f"public_key: {public_key}\nprivate_key: {private_key}")
+
+
 
 
     
