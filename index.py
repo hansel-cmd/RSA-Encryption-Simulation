@@ -65,8 +65,11 @@ def encrypt(plain_text, p, q):
     }
     print(f"{Highlight.GREEN}public_key: {public_key}\nprivate_key: {private_key}")
 
+    # TODO
+    # Encryption c = m^?? mod n
 
-
+    # TODO
+    # Decryption m = c^?? mod n
 
     
     
