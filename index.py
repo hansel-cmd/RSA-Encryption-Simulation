@@ -8,13 +8,12 @@ def encrypt(plain_text, p, q):
 
     z_factors = get_factors_of_z(z)
     
-
-    possible_numbers = [i for i in range(1, n) if i not in z_factors]
-    
     # choose number e, less than n, 
     # which has no common factor with z
+    possible_numbers = [i for i in range(1, n) if i not in z_factors]
     print(possible_numbers)
     
+
     # we need to remove numbers in the list that do not have any number that
     # satisfies the next step: 
     # where we find d, such that ed - 1 is exactly divisible by z
@@ -23,16 +22,7 @@ def encrypt(plain_text, p, q):
     # factor with z = 24), but 9 and 10 do not have the 'd' that will satisfy 
     # the "ed - 1 is exactly divisible by z" condition
     # even if we loop until 10,000.
-    
-    new_possible_numbers = []
-    for i in possible_numbers:
-        temp = []
-        for j in range(1, 100):
-            if ((i * j) - 1) % z == 0:
-                temp.append(j)
-        if temp:
-            new_possible_numbers.append(i)
-
+    new_possible_numbers = [i for i in possible_numbers if [j for j in range (1, 100) if ((i * j) - 1) % z == 0]]
     print(new_possible_numbers)
 
 
