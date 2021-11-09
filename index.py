@@ -1,16 +1,10 @@
 from helper import Highlight
 import math
 
-
-for x in range (0, 128):
-    if x in range (0, 33):
-        print(f"{x} | {ascii(chr(x))}")
-    else:
-        print(f"{x} | {chr(x)}")
-
-
-
-
+# TODO
+# Encryption c = m^e mod n
+# c is the cipher text
+# m is the plain plain text
 def encrypt(plain_text, p, q):
     # compute n = pq
     n = p * q
@@ -82,34 +76,27 @@ def encrypt(plain_text, p, q):
         'n': n,
         'd': d
     }
-    print(f"{Highlight.GREEN}public_key: {public_key}\nprivate_key: {private_key}")
+    print(f"{Highlight.GREEN}public_key: {public_key}\nprivate_key: {private_key}\n")
 
-   
-
-    # TODO
-    # Encryption c = m^e mod n
-    # c is the cipher text
-    # m is the plain plain text
-
-    test = []
-    for i in range(0, 128):
-        print(f"{i} | {chr(i)}")
-        test.append(chr(i))
-
-    cipher_text = []
-    print(chr(14))
-    for i in plain_text:
-        # print((ord(i) + ((ord(i) ** e) % n)))
-        print(f"{ord(i)} | {ord(i) ** e % n % 127} | {chr(ord(i) ** e % n % 127)}")
-        cipher_text.append(chr(ord(i) ** e % n % 127))
+    # encrypt each plain text characters
+    cipher_text = [chr(ord(i) ** e % n) for i in plain_text]
     
-    print(cipher_text)
-    print(''.join(cipher_text))
+    plain_text = [i for i in plain_text]
+    print(f"{Highlight.YELLOW}Original message letters:", plain_text)
+    print(f"{Highlight.YELLOW}Encrypted message letters:", cipher_text)
 
 
+    print(f"{Highlight.GREEN}Original message: '{''.join(plain_text)}'")
+    print(f"{Highlight.GREEN}Encrypted message:", ascii(''.join(cipher_text)))
 
-    # TODO
-    # Decryption m = c^d mod n
+    return cipher_text
+
+# TODO
+# Decryption m = c^d mod n
+# c is the cipher text
+# m is the plain plain text
+def decrypt(cipher_text):
+    return 0
 
     
     
@@ -157,4 +144,4 @@ def main():
 
 
 
-# main()
+main()
