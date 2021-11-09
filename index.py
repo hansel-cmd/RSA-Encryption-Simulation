@@ -1,4 +1,5 @@
 from helper import Highlight
+import math
 
 
 def encrypt(plain_text, p, q):
@@ -66,10 +67,24 @@ def encrypt(plain_text, p, q):
     print(f"{Highlight.GREEN}public_key: {public_key}\nprivate_key: {private_key}")
 
     # TODO
-    # Encryption c = m^?? mod n
+    # Encryption c = m^e mod n
+    # c is the cipher text
+    # m is the plain plain text
+
+    print(chr(141))
+
+    cipher_text = []
+    print(chr(14))
+    for i in plain_text:
+        # print((ord(i) + ((ord(i) ** e) % n)))
+        print(f"{ord(i)} | {ord(i) ** e % n % 127} | {chr(ord(i) ** e % n % 127)}")
+        cipher_text.append(chr(ord(i) ** e % n % 127))
+    
+    # print(cipher_text)
+
 
     # TODO
-    # Decryption m = c^?? mod n
+    # Decryption m = c^d mod n
 
     
     
