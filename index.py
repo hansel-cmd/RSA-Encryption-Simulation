@@ -216,13 +216,10 @@ def main():
     keys = generate_public_private_key()
     
     plain_text = input(f"{Highlight.WHITE}Enter the text message you want to encrypt: ")
-
-    encrypt(plain_text, keys["public_key"]["e"], keys["public_key"]["n"])
+    encrypt(plain_text)
 
     cipher_text = input(f"{Highlight.WHITE}Enter the text message you want to decrypt: ")
     decrypt(cipher_text)
-
-    
 
 
 main()
