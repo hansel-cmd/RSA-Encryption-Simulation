@@ -1,6 +1,6 @@
 from helper import Highlight
-import math
-import codecs
+from helper import Replace
+
 
 # TODO
 # Encryption c = m^e mod n
@@ -197,11 +197,20 @@ cipher_text = input(f"{Highlight.WHITE}Enter the text message you want to decryp
 cipher_text = ascii(cipher_text.encode().decode('unicode_escape'))
 # print(cipher_text)
 
-cipher_text = cipher_text.replace("\\x08", "\x08")
+cipher_text = Replace.replace_to_ascii(cipher_text)
 # print(cipher_text)
-cipher_text = cipher_text.strip("''")
 cipher_text = [i for i in cipher_text]
-# print(cipher_text)
+print(cipher_text)
+
+plain_text = []
+
+d = 223
+n = 143
+e = 7
+p = 11
+q = 13
 
 for i in cipher_text:
-    print(f"{i} | {ord(i)} | {ascii(i)}")
+    print(f"{i} | {ord(i)} | {ascii(i)} | {ord(i) ** d % n % 127} | {chr(ord(i) ** d % n % 127)}")
+    plain_text.append(chr(ord(i) ** d % n % 127))
+    
