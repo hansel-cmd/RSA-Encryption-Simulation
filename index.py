@@ -2,6 +2,15 @@ from helper import Highlight
 import math
 
 
+for x in range (0, 128):
+    if x in range (0, 33):
+        print(f"{x} | {ascii(chr(x))}")
+    else:
+        print(f"{x} | {chr(x)}")
+
+
+
+
 def encrypt(plain_text, p, q):
     # compute n = pq
     n = p * q
@@ -75,27 +84,28 @@ def encrypt(plain_text, p, q):
     }
     print(f"{Highlight.GREEN}public_key: {public_key}\nprivate_key: {private_key}")
 
+   
+
     # TODO
     # Encryption c = m^e mod n
     # c is the cipher text
     # m is the plain plain text
 
-    # print(f"14: {chr(14)} 15: {chr(15)}")
-
-    # cipher_text = []
-    # print(chr(14))
-    # for i in plain_text:
-    #     # print((ord(i) + ((ord(i) ** e) % n)))
-    #     print(f"{ord(i)} | {ord(i) ** e % n % 127} | {chr(ord(i) ** e % n % 127)}")
-    #     cipher_text.append(chr(ord(i) ** e % n % 127))
-
     test = []
     for i in range(0, 128):
         print(f"{i} | {chr(i)}")
         test.append(chr(i))
+
+    cipher_text = []
+    print(chr(14))
+    for i in plain_text:
+        # print((ord(i) + ((ord(i) ** e) % n)))
+        print(f"{ord(i)} | {ord(i) ** e % n % 127} | {chr(ord(i) ** e % n % 127)}")
+        cipher_text.append(chr(ord(i) ** e % n % 127))
     
-    print(test)
-    # print(cipher_text)
+    print(cipher_text)
+    print(''.join(cipher_text))
+
 
 
     # TODO
@@ -147,4 +157,4 @@ def main():
 
 
 
-main()
+# main()
