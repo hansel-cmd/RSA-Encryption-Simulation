@@ -1,5 +1,4 @@
-from helper import Highlight
-from helper import Replace
+from helper import Highlight, Replace
 from math import gcd
 
 # TODO
@@ -38,7 +37,7 @@ def encrypt(plain_text):
     print(f"{Highlight.YELLOW}Original message letters:", plain_text)
     print(f"{Highlight.YELLOW}Encrypted message letters:", cipher_text)
 
-    print(f"{Highlight.GREEN}Original message: '{''.join(plain_text)}'")
+    print(f"{Highlight.GREEN}Original message: {ascii(''.join(plain_text))}")
     print(f"{Highlight.GREEN}Encrypted message:", ascii(''.join(cipher_text)))
 
     return cipher_text
@@ -148,8 +147,8 @@ def generate_public_private_key():
     print(f"{Highlight.GREEN}n is {n} \nz is {z}")
 
     # choose e, where 1 < e < z
-    # where e should be coprime with z = 10 and 
-    # coprime with n = 22
+    # where e should be coprime with z and 
+    # coprime with n
     common_factors_of_n_and_z = []
     for i in range(2, z):
         all_cf = common_factors(i, n)
@@ -258,8 +257,10 @@ def main():
     plain_text = input(f"{Highlight.WHITE}Enter the text message you want to encrypt: ")
     encrypt(plain_text)
 
-    cipher_text = input(f"{Highlight.WHITE}Enter the text message you want to decrypt: ")
+    cipher_text = input(f"\n{Highlight.WHITE}Enter the text message you want to decrypt: ")
     decrypt(cipher_text)
+
+    print(Highlight.WHITE)
 
 
 main()
