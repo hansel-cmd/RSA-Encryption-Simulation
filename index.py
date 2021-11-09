@@ -6,9 +6,27 @@ from helper import Replace
 # Encryption c = m^e mod n
 # c is the cipher text
 # m is the plain plain text
-def encrypt(plain_text, public_key_e, public_key_n):
-    
+def encrypt(plain_text):
 
+    # ask user his public_key
+    print(f"{Highlight.YELLOW}Please enter your public key values.")
+    while True:
+        public_key_n = input(f"{Highlight.WHITE}n: ")
+        try:
+            public_key_n = int(public_key_n)
+            break
+        except ValueError:
+            print(f"{Highlight.RED}Number is invalid.")
+
+    while True:
+        public_key_e = input(f"{Highlight.WHITE}e: ")
+        try:
+            public_key_e = int(public_key_e)
+            break
+        except ValueError:
+            print(f"{Highlight.RED}Number is invalid.")
+
+    print("Encrypting...")
     # encrypt each plain text characters to ascii code
     # we need % 127 so as to prevent from going outside
     # the ascii boundary
@@ -76,6 +94,7 @@ def decrypt(cipher_text):
 def get_factors_of_z(number):
     return [factor for factor in range (1, number + 1) if number % factor == 0]
 
+
 def is_prime(number):
 
     try:
@@ -93,7 +112,23 @@ def is_prime(number):
 
 
 def generate_public_private_key():
-    print("Generate public and private key...")
+
+    print(f"{Highlight.YELLOW}Generate public and private key...")
+    # Choose the first prime number [preferrably a large prime number]
+    while True:
+        p = input(f"{Highlight.WHITE}Enter the value of first prime p: ")
+        if is_prime(p): break
+        print(f"{Highlight.RED}Sorry, input is not prime.")
+
+    # Choose the second prime number [preferrably a large prime number]
+    while True:
+        q = input(f"{Highlight.WHITE}Enter the value of second prime q: ")
+        if is_prime(q): break
+        print(f"{Highlight.RED}Sorry, input is not prime.")
+
+    p = int(p)
+    q = int(q)
+
     # compute n = pq
     n = p * q
     # compute z = (p-1)(q-1)
@@ -123,8 +158,10 @@ def generate_public_private_key():
     # using random.choice([list])
     # but for the sake of this discussion, we ask for 
     # a user input for the value of e.
+    print(f"""{Highlight.BLUE}Pls note that this step should be done by the algorithm itself
+    (see comment inside the source code), and should not ask for any user input.""")
     while True:
-        e = input(f"{Highlight.WHITE}Please choose your {Highlight.BLUE}e value {Highlight.WHITE}in the list: ")
+        e = input(f"{Highlight.WHITE}Please choose your {Highlight.BLUE}e value {Highlight.WHITE}in the list highlighted in yellow: ")
         try:
             e = int(e)
             if e in new_possible_numbers: break
@@ -143,8 +180,10 @@ def generate_public_private_key():
     # using random.choice([list])
     # but for the sake of this discussion, we ask for 
     # a user input for the value of d.
+    print(f"""{Highlight.BLUE}Pls note that this step should be done by the algorithm itself
+    (see comment inside the source code), and should not ask for any user input.""")
     while True:
-        d = input(f"{Highlight.WHITE}Please choose your {Highlight.BLUE}d value {Highlight.WHITE}in the list: ")
+        d = input(f"{Highlight.WHITE}Please choose your {Highlight.BLUE}d value {Highlight.WHITE}in the list highlighted in yellow: ")
         try:
             d = int(d)
             if d in all_d_values: break
@@ -166,35 +205,24 @@ def generate_public_private_key():
     }
     print(f"{Highlight.GREEN}public_key: {public_key}\nprivate_key: {private_key}\n")
 
+    return {
+        "public_key": public_key,
+        "private_key": private_key
+    }
+
 
 def main():
 
-    generate_public_private_key()
+    keys = generate_public_private_key()
     
+    plain_text = input(f"{Highlight.WHITE}Enter the text message you want to encrypt: ")
 
+    encrypt(plain_text, keys["public_key"]["e"], keys["public_key"]["n"])
 
-    # plain_text = input(f"{Highlight.WHITE}Enter the text message you want to encrypt: ")
+    cipher_text = input(f"{Highlight.WHITE}Enter the text message you want to decrypt: ")
+    decrypt(cipher_text)
 
-    # # Choose the first prime number [preferrably a large prime number]
-    # while True:
-    #     p = input(f"{Highlight.WHITE}Enter the value of first prime p: ")
-    #     if is_prime(p): break
-    #     print(f"{Highlight.RED}Sorry, input is not prime.")
-
-    # # Choose the second prime number [preferrably a large prime number]
-    # while True:
-    #     q = input(f"{Highlight.WHITE}Enter the value of second prime q: ")
-    #     if is_prime(q): break
-    #     print(f"{Highlight.RED}Sorry, input is not prime.")
-
-    # p = int(p)
-    # q = int(q)
-    # encrypt(plain_text, p, q)
-
-    # cipher_text = input(f"{Highlight.WHITE}Enter the text message you want to decrypt: ")
-    # decrypt(cipher_text)
     
-
 
 
 main()
