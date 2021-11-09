@@ -79,7 +79,9 @@ def encrypt(plain_text, p, q):
     print(f"{Highlight.GREEN}public_key: {public_key}\nprivate_key: {private_key}\n")
 
     # encrypt each plain text characters
-    cipher_text = [chr(ord(i) ** e % n) for i in plain_text]
+    # we need % 127 so as to prevent from going outside
+    # the ascii boundary
+    cipher_text = [chr(ord(i) ** e % n % 127) for i in plain_text]
     
     plain_text = [i for i in plain_text]
     print(f"{Highlight.YELLOW}Original message letters:", plain_text)
@@ -95,7 +97,13 @@ def encrypt(plain_text, p, q):
 # Decryption m = c^d mod n
 # c is the cipher text
 # m is the plain plain text
-def decrypt(cipher_text):
+def decrypt(cipher_text, p, q):
+    # compute n = pq
+    n = p * q
+
+
+
+    
     return 0
 
     
@@ -105,8 +113,6 @@ def decrypt(cipher_text):
 def get_factors_of_z(number):
     return [factor for factor in range (1, number + 1) if number % factor == 0]
 
-
-    
 def is_prime(number):
 
     try:
@@ -124,23 +130,26 @@ def is_prime(number):
 
 
 def main():
-    plain_text = input(f"{Highlight.WHITE}Enter the text message you want to encrypt: ")
+    # plain_text = input(f"{Highlight.WHITE}Enter the text message you want to encrypt: ")
 
-    # Choose the first prime number [preferrably a large prime number]
-    while True:
-        p = input(f"{Highlight.WHITE}Enter the value of first prime p: ")
-        if is_prime(p): break
-        print(f"{Highlight.RED}Sorry, input is not prime.")
+    # # Choose the first prime number [preferrably a large prime number]
+    # while True:
+    #     p = input(f"{Highlight.WHITE}Enter the value of first prime p: ")
+    #     if is_prime(p): break
+    #     print(f"{Highlight.RED}Sorry, input is not prime.")
 
-    # Choose the second prime number [preferrably a large prime number]
-    while True:
-        q = input(f"{Highlight.WHITE}Enter the value of second prime q: ")
-        if is_prime(q): break
-        print(f"{Highlight.RED}Sorry, input is not prime.")
+    # # Choose the second prime number [preferrably a large prime number]
+    # while True:
+    #     q = input(f"{Highlight.WHITE}Enter the value of second prime q: ")
+    #     if is_prime(q): break
+    #     print(f"{Highlight.RED}Sorry, input is not prime.")
 
-    p = int(p)
-    q = int(q)
-    encrypt(plain_text, p, q)
+    # p = int(p)
+    # q = int(q)
+    # encrypt(plain_text, p, q)
+
+    plain_text = input(f"{Highlight.WHITE}Enter the text message you want to decrypt: ")
+    decrypt(plain_text, 11, 13)
 
 
 
