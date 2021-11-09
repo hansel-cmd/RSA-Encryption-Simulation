@@ -1,5 +1,6 @@
 from helper import Highlight
 import math
+import codecs
 
 # TODO
 # Encryption c = m^e mod n
@@ -78,7 +79,7 @@ def encrypt(plain_text, p, q):
     }
     print(f"{Highlight.GREEN}public_key: {public_key}\nprivate_key: {private_key}\n")
 
-    # encrypt each plain text characters
+    # encrypt each plain text characters to ascii code
     # we need % 127 so as to prevent from going outside
     # the ascii boundary
     cipher_text = [chr(ord(i) ** e % n % 127) for i in plain_text]
@@ -97,9 +98,43 @@ def encrypt(plain_text, p, q):
 # Decryption m = c^d mod n
 # c is the cipher text
 # m is the plain plain text
-def decrypt(cipher_text, p, q):
-    # compute n = pq
-    n = p * q
+def decrypt(cipher_text):
+    
+    # ask user his private_key
+    print(f"{Highlight.YELLOW}Please enter your private key values.")
+    while True:
+        private_key_n = input(f"{Highlight.WHITE}n: ")
+        try:
+            private_key_n = int(private_key_n)
+            break
+        except ValueError:
+            print(f"{Highlight.RED}Number is invalid.")
+
+    while True:
+        private_key_d = input(f"{Highlight.WHITE}d: ")
+        try:
+            private_key_d = int(private_key_d)
+            break
+        except ValueError:
+            print(f"{Highlight.RED}Number is invalid.")
+
+    print("Decrypting...")
+
+    plain_text = []
+    # cipher_text = 'EA\x08HAMAN'
+    # print(type(cipher_text))
+    # print(ascii(''.join(ord(cipher_text))))
+    # for i in cipher_text:
+    #     print(i)
+        # i ** private_key_d % n
+# chr(ord(i) ** e % n % 127)
+
+    # cipher_text = ascii(cipher_text.encode().decode('unicode_escape'))
+    # for i in cipher_text:
+    #     print(i)
+    # plain_text = [i for i in cipher_text]
+    # print(plain_text)
+
 
 
 
@@ -148,9 +183,25 @@ def main():
     # q = int(q)
     # encrypt(plain_text, p, q)
 
-    plain_text = input(f"{Highlight.WHITE}Enter the text message you want to decrypt: ")
-    decrypt(plain_text, 11, 13)
+    cipher_text = input(f"{Highlight.WHITE}Enter the text message you want to decrypt: ")
+    decrypt(cipher_text)
+    
 
 
 
-main()
+# main()
+
+cipher_text = input(f"{Highlight.WHITE}Enter the text message you want to decrypt: ")
+
+
+cipher_text = ascii(cipher_text.encode().decode('unicode_escape'))
+# print(cipher_text)
+
+cipher_text = cipher_text.replace("\\x08", "\x08")
+# print(cipher_text)
+cipher_text = cipher_text.strip("''")
+cipher_text = [i for i in cipher_text]
+# print(cipher_text)
+
+for i in cipher_text:
+    print(f"{i} | {ord(i)} | {ascii(i)}")
