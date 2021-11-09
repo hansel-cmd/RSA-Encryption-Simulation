@@ -6,7 +6,94 @@ from helper import Replace
 # Encryption c = m^e mod n
 # c is the cipher text
 # m is the plain plain text
-def encrypt(plain_text, p, q):
+def encrypt(plain_text, public_key_e, public_key_n):
+    
+
+    # encrypt each plain text characters to ascii code
+    # we need % 127 so as to prevent from going outside
+    # the ascii boundary
+    cipher_text = [chr(ord(i) ** public_key_e % public_key_n % 127) for i in plain_text]
+    
+    plain_text = [i for i in plain_text]
+    print(f"{Highlight.YELLOW}Original message letters:", plain_text)
+    print(f"{Highlight.YELLOW}Encrypted message letters:", cipher_text)
+
+    print(f"{Highlight.GREEN}Original message: '{''.join(plain_text)}'")
+    print(f"{Highlight.GREEN}Encrypted message:", ascii(''.join(cipher_text)))
+
+    return cipher_text
+
+# TODO
+# Decryption m = c^d mod n
+# c is the cipher text
+# m is the plain plain text
+def decrypt(cipher_text):
+    
+    # ask user his private_key
+    print(f"{Highlight.YELLOW}Please enter your private key values.")
+    while True:
+        private_key_n = input(f"{Highlight.WHITE}n: ")
+        try:
+            private_key_n = int(private_key_n)
+            break
+        except ValueError:
+            print(f"{Highlight.RED}Number is invalid.")
+
+    while True:
+        private_key_d = input(f"{Highlight.WHITE}d: ")
+        try:
+            private_key_d = int(private_key_d)
+            break
+        except ValueError:
+            print(f"{Highlight.RED}Number is invalid.")
+
+    print("Decrypting...")
+    
+    # Since we have hex value for ascii codes that
+    # are not printable, i.e., backspace, shift out/in
+    # we need to encode the string as ascii
+    # this results to -> 'SAMPLE\x08WORLD'
+    cipher_text = ascii(cipher_text.encode().decode('unicode_escape'))
+
+    # Since a string will typically use escape character,
+    # i.e., 'SAMPLE\\x08...', we have to replace this type
+    # of pattern with its true value (hex ascii code)
+    cipher_text = Replace.replace_to_ascii(cipher_text)
+    cipher_text = [i for i in cipher_text]
+
+    # decrypt each character from the cipher text
+    plain_text = [chr(ord(i) ** private_key_d % private_key_n % 127) for i in cipher_text]
+
+    print(f"{Highlight.YELLOW}Encrypted message letters:", cipher_text)
+    print(f"{Highlight.YELLOW}Decrpyted message letters:", plain_text)
+
+    print(f"{Highlight.GREEN}Encrypted message:", ascii(''.join(cipher_text)))
+    print(f"{Highlight.GREEN}Decrypted message: '{''.join(plain_text)}'")
+
+    return plain_text
+
+    
+def get_factors_of_z(number):
+    return [factor for factor in range (1, number + 1) if number % factor == 0]
+
+def is_prime(number):
+
+    try:
+        number = int(number)
+    except ValueError:
+        return False
+
+    if number > 1:
+        for n in range(2, number):
+                if (number % n) == 0:
+                    return False
+        return True
+    else:
+        return False
+
+
+def generate_public_private_key():
+    print("Generate public and private key...")
     # compute n = pq
     n = p * q
     # compute z = (p-1)(q-1)
@@ -79,92 +166,13 @@ def encrypt(plain_text, p, q):
     }
     print(f"{Highlight.GREEN}public_key: {public_key}\nprivate_key: {private_key}\n")
 
-    # encrypt each plain text characters to ascii code
-    # we need % 127 so as to prevent from going outside
-    # the ascii boundary
-    cipher_text = [chr(ord(i) ** e % n % 127) for i in plain_text]
-    
-    plain_text = [i for i in plain_text]
-    print(f"{Highlight.YELLOW}Original message letters:", plain_text)
-    print(f"{Highlight.YELLOW}Encrypted message letters:", cipher_text)
-
-
-    print(f"{Highlight.GREEN}Original message: '{''.join(plain_text)}'")
-    print(f"{Highlight.GREEN}Encrypted message:", ascii(''.join(cipher_text)))
-
-    return cipher_text
-
-# TODO
-# Decryption m = c^d mod n
-# c is the cipher text
-# m is the plain plain text
-def decrypt(cipher_text):
-    
-    # ask user his private_key
-    print(f"{Highlight.YELLOW}Please enter your private key values.")
-    while True:
-        private_key_n = input(f"{Highlight.WHITE}n: ")
-        try:
-            private_key_n = int(private_key_n)
-            break
-        except ValueError:
-            print(f"{Highlight.RED}Number is invalid.")
-
-    while True:
-        private_key_d = input(f"{Highlight.WHITE}d: ")
-        try:
-            private_key_d = int(private_key_d)
-            break
-        except ValueError:
-            print(f"{Highlight.RED}Number is invalid.")
-
-    print("Decrypting...")
-
-    plain_text = []
-    # cipher_text = 'EA\x08HAMAN'
-    # print(type(cipher_text))
-    # print(ascii(''.join(ord(cipher_text))))
-    # for i in cipher_text:
-    #     print(i)
-        # i ** private_key_d % n
-# chr(ord(i) ** e % n % 127)
-
-    # cipher_text = ascii(cipher_text.encode().decode('unicode_escape'))
-    # for i in cipher_text:
-    #     print(i)
-    # plain_text = [i for i in cipher_text]
-    # print(plain_text)
-
-
-
-
-    
-    return 0
-
-    
-    
-    
-
-def get_factors_of_z(number):
-    return [factor for factor in range (1, number + 1) if number % factor == 0]
-
-def is_prime(number):
-
-    try:
-        number = int(number)
-    except ValueError:
-        return False
-
-    if number > 1:
-        for n in range(2, number):
-                if (number % n) == 0:
-                    return False
-        return True
-    else:
-        return False
-
 
 def main():
+
+    generate_public_private_key()
+    
+
+
     # plain_text = input(f"{Highlight.WHITE}Enter the text message you want to encrypt: ")
 
     # # Choose the first prime number [preferrably a large prime number]
@@ -183,34 +191,10 @@ def main():
     # q = int(q)
     # encrypt(plain_text, p, q)
 
-    cipher_text = input(f"{Highlight.WHITE}Enter the text message you want to decrypt: ")
-    decrypt(cipher_text)
+    # cipher_text = input(f"{Highlight.WHITE}Enter the text message you want to decrypt: ")
+    # decrypt(cipher_text)
     
 
 
 
-# main()
-
-cipher_text = input(f"{Highlight.WHITE}Enter the text message you want to decrypt: ")
-
-
-cipher_text = ascii(cipher_text.encode().decode('unicode_escape'))
-# print(cipher_text)
-
-cipher_text = Replace.replace_to_ascii(cipher_text)
-# print(cipher_text)
-cipher_text = [i for i in cipher_text]
-print(cipher_text)
-
-plain_text = []
-
-d = 223
-n = 143
-e = 7
-p = 11
-q = 13
-
-for i in cipher_text:
-    print(f"{i} | {ord(i)} | {ascii(i)} | {ord(i) ** d % n % 127} | {chr(ord(i) ** d % n % 127)}")
-    plain_text.append(chr(ord(i) ** d % n % 127))
-    
+main()
