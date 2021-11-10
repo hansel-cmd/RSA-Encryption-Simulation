@@ -1,7 +1,5 @@
 from helper import *
 
-
-
 # TODO
 # Encryption c = m^e mod n
 # c is the cipher text
@@ -195,3 +193,5 @@ def main():
 
 
 main()
+
+

@@ -31,19 +31,10 @@ def is_prime(number):
 def get_co_primes(n, z):
     common_factors_of_n_and_z = []
     for i in range(2, z):
-        all_cf = common_factors(i, n)
-        for j in all_cf:
-            common_factors_of_n_and_z.append(j)
-        all_cf = common_factors(i, z)
-        for j in all_cf:
-            common_factors_of_n_and_z.append(j)
+        common_factors_of_n_and_z = common_factors_of_n_and_z + common_factors(i, n)
+        common_factors_of_n_and_z = common_factors_of_n_and_z + common_factors(i, z)
 
-    possible_numbers = []
-    for i in range(2, z):
-        if i not in common_factors_of_n_and_z and is_prime(i):
-            possible_numbers.append(i)
-            
-    return possible_numbers
+    return [i for i in range (2, z) if i not in common_factors_of_n_and_z and is_prime(i)]
 
 
 def get_public_key_values():
