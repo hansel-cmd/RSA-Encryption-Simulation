@@ -1,5 +1,6 @@
-from helper import Highlight
-from math import gcd
+from helper import *
+
+
 
 # TODO
 # Encryption c = m^e mod n
@@ -7,23 +8,7 @@ from math import gcd
 # m is the plain plain text
 def encrypt(plain_text):
 
-    # ask user his public_key
-    print(f"{Highlight.YELLOW}Please enter your PUBLIC KEY values.")
-    while True:
-        public_key_n = input(f"{Highlight.WHITE}n: ")
-        try:
-            public_key_n = int(public_key_n)
-            break
-        except ValueError:
-            print(f"{Highlight.RED}Input is invalid.")
-
-    while True:
-        public_key_e = input(f"{Highlight.WHITE}e: ")
-        try:
-            public_key_e = int(public_key_e)
-            break
-        except ValueError:
-            print(f"{Highlight.RED}Input is invalid.")
+    public_key_n, public_key_e = get_public_key_values()
 
     print("Encrypting...")
 
@@ -33,14 +18,16 @@ def encrypt(plain_text):
     # similar encryption letter which we need to avoid
     cipher_text = [chr(ord(i) ** public_key_e % public_key_n) for i in plain_text]
 
-    plain_text = [i for i in plain_text]
-    print(f"{Highlight.YELLOW}Original message letters:", plain_text)
+    print(f"{Highlight.YELLOW}Original message letters:", [i for i in plain_text])
     print(f"{Highlight.YELLOW}Encrypted message letters:", cipher_text)
 
-    print(f"{Highlight.GREEN}Original message: {ascii(''.join(plain_text))}")
-    print(f"{Highlight.GREEN}Encrypted message:", ascii(''.join(cipher_text)))
+    cipher_text = ascii(''.join(cipher_text))[1:-1]
+
+    print(f"{Highlight.GREEN}Original message: {plain_text}")
+    print(f"{Highlight.GREEN}Encrypted message: {cipher_text}")
 
     return cipher_text
+
 
 # TODO
 # Decryption m = c^d mod n
@@ -48,23 +35,7 @@ def encrypt(plain_text):
 # m is the plain plain text
 def decrypt(cipher_text):
     
-    # ask user his private_key
-    print(f"{Highlight.YELLOW}Please enter your PRIVATE KEY values.")
-    while True:
-        private_key_n = input(f"{Highlight.WHITE}n: ")
-        try:
-            private_key_n = int(private_key_n)
-            break
-        except ValueError:
-            print(f"{Highlight.RED}Input is invalid.")
-
-    while True:
-        private_key_d = input(f"{Highlight.WHITE}d: ")
-        try:
-            private_key_d = int(private_key_d)
-            break
-        except ValueError:
-            print(f"{Highlight.RED}Input is invalid.")
+    private_key_n, private_key_d = get_private_key_values()
 
     print("Decrypting...")
     
@@ -79,28 +50,12 @@ def decrypt(cipher_text):
     print(f"{Highlight.YELLOW}Encrypted message letters:", cipher_text)
     print(f"{Highlight.YELLOW}Decrpyted message letters:", plain_text)
 
-    print(f"{Highlight.GREEN}Encrypted message:", ascii(''.join(cipher_text)))
-    print(f"{Highlight.GREEN}Decrypted message: {''.join(plain_text)}")
+    plain_text = ''.join(plain_text)
+
+    print(f"{Highlight.GREEN}Encrypted message: {ascii(''.join(cipher_text))[1:-1]}")
+    print(f"{Highlight.GREEN}Decrypted message: {plain_text}")
 
     return plain_text
-
-
-# function gcd is from math module, we need this to get
-# the greatest factor of both numbers
-def common_factors(first_number, second_number):
-    fact = gcd(first_number, second_number)
-    return [i for i in range(1, fact + 1) if fact % i == 0]
-
-
-def is_prime(number):
-
-    if number > 1:
-        for n in range(2, number):
-                if (number % n) == 0:
-                    return False
-        return True
-    else:
-        return False
 
 
 def generate_public_private_key():
@@ -139,19 +94,7 @@ def generate_public_private_key():
     # choose e, where 1 < e < z
     # where e should be coprime with z and 
     # coprime with n
-    common_factors_of_n_and_z = []
-    for i in range(2, z):
-        all_cf = common_factors(i, n)
-        for j in all_cf:
-            common_factors_of_n_and_z.append(j)
-        all_cf = common_factors(i, z)
-        for j in all_cf:
-            common_factors_of_n_and_z.append(j)
-
-    possible_numbers = []
-    for i in range(2, z):
-        if i not in common_factors_of_n_and_z and is_prime(i):
-            possible_numbers.append(i)
+    possible_numbers = get_co_primes(n, z)
     print(f"{Highlight.YELLOW}{possible_numbers}")
 
     # This part should not be a user input
@@ -220,7 +163,7 @@ def main():
 
     # We do not need this line of code because e and d are
     # already given. We only use this if we need to generate
-    # the values of e and d.
+    # the values for e and d.
     # keys = generate_public_private_key()
 
     p = 11
