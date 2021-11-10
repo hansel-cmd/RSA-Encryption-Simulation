@@ -1,4 +1,4 @@
-from helper import Highlight, Replace
+from helper import Highlight
 from math import gcd
 
 # TODO
@@ -68,17 +68,7 @@ def decrypt(cipher_text):
 
     print("Decrypting...")
     
-    # Since we have hex value for ascii codes that
-    # are not printable, i.e., backspace, shift out/in
-    # we need to encode the string as ascii
-    # this results to -> 'SAMPLE\x08WORLD'
-    cipher_text = ascii(cipher_text.encode().decode('unicode_escape'))
-
-    # Since a string will typically use escape character,
-    # i.e., 'SAMPLE\\x08...', we have to replace this type
-    # of pattern with its true value (hex ascii code)
-    cipher_text = Replace.replace_to_ascii(cipher_text)
-    cipher_text = [i for i in cipher_text]
+    cipher_text = cipher_text.encode().decode('unicode_escape')
 
     # decrypt each character from the cipher text
     # We can put % 127 at the end to avoid going outside the
@@ -249,11 +239,9 @@ def main():
         n = p * q
 
         public_key: (n = 143, e = 7)
-        private_key: (n =143, d = 223)
+        private_key: (n = 143, d = 223)
     """)
 
-    
-    
     plain_text = input(f"{Highlight.WHITE}Enter the text message you want to encrypt: ")
     encrypt(plain_text)
 
