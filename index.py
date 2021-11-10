@@ -16,13 +16,11 @@ def encrypt(plain_text):
     # similar encryption letter which we need to avoid
     cipher_text = [chr(ord(i) ** public_key_e % public_key_n) for i in plain_text]
 
-    print(f"{Highlight.YELLOW}Original message letters:", [i for i in plain_text])
-    print(f"{Highlight.YELLOW}Encrypted message letters:", cipher_text)
+    display_encrypted_char(cipher_text, plain_text)
 
     cipher_text = ascii(''.join(cipher_text))[1:-1]
 
-    print(f"{Highlight.GREEN}Original message: {plain_text}")
-    print(f"{Highlight.GREEN}Encrypted message: {cipher_text}")
+    display_encrypted_message(cipher_text, plain_text)
 
     return cipher_text
 
@@ -45,13 +43,11 @@ def decrypt(cipher_text):
     # similar encryption letter which we need to avoid
     plain_text = [chr(ord(i) ** private_key_d % private_key_n) for i in cipher_text]
 
-    print(f"{Highlight.YELLOW}Encrypted message letters:", cipher_text)
-    print(f"{Highlight.YELLOW}Decrpyted message letters:", plain_text)
+    display_decrypted_char(cipher_text, plain_text)
 
     plain_text = ''.join(plain_text)
 
-    print(f"{Highlight.GREEN}Encrypted message: {ascii(''.join(cipher_text))[1:-1]}")
-    print(f"{Highlight.GREEN}Decrypted message: {plain_text}")
+    display_decrypted_message(cipher_text, plain_text)
 
     return plain_text
 
@@ -59,28 +55,8 @@ def decrypt(cipher_text):
 def generate_public_private_key():
 
     print(f"{Highlight.YELLOW}Generate public and private key...")
-    # Choose the first prime number [preferrably a large prime number]
-    while True:
-        p = input(f"{Highlight.WHITE}Enter the value of first prime p: ")
-        try:
-            p = int(p)
-        except ValueError:
-            print(f"{Highlight.RED}Invalid input.")    
-        if is_prime(p): break
-        print(f"{Highlight.RED}Sorry, input is not prime.")
-
-    # Choose the second prime number [preferrably a large prime number]
-    while True:
-        q = input(f"{Highlight.WHITE}Enter the value of second prime q: ")
-        try:
-            q = int(q)
-        except ValueError:
-            print(f"{Highlight.RED}Invalid input.")    
-        if is_prime(q): break
-        print(f"{Highlight.RED}Sorry, input is not prime.")
-
-    p = int(p)
-    q = int(q)
+    p = int(ask_for_first_prime_number())
+    q = int(ask_for_second_prime_number(p))
 
     # compute n = pq
     n = p * q
@@ -162,7 +138,7 @@ def main():
     # We do not need this line of code because e and d are
     # already given. We only use this if we need to generate
     # the values for e and d.
-    # keys = generate_public_private_key()
+    keys = generate_public_private_key()
 
     p = 11
     q = 13

@@ -79,3 +79,60 @@ def get_private_key_values():
     
     return (private_key_n, private_key_d)
 
+
+def display_encrypted_char(cipher_text, plain_text):
+    print(f"{Highlight.YELLOW}Original message letters:", [i for i in plain_text])
+    print(f"{Highlight.YELLOW}Encrypted message letters:", cipher_text)
+
+
+def display_encrypted_message(cipher_text, plain_text):
+    print(f"{Highlight.GREEN}Original message: {plain_text}")
+    print(f"{Highlight.GREEN}Encrypted message: {cipher_text}")
+
+
+def display_decrypted_char(cipher_text, plain_text):
+    print(f"{Highlight.YELLOW}Encrypted message letters:", [i for i in cipher_text])
+    print(f"{Highlight.YELLOW}Decrpyted message letters:", plain_text)
+
+
+def display_decrypted_message(cipher_text, plain_text):
+    print(f"{Highlight.GREEN}Encrypted message: {ascii(''.join(cipher_text))[1:-1]}")
+    print(f"{Highlight.GREEN}Decrypted message: {plain_text}")
+
+
+def ask_for_first_prime_number():
+    # Choose the first prime number [preferrably a large prime number]
+    while True:
+        p = input(f"{Highlight.WHITE}Enter the value of first prime p: ")
+        try:
+            p = int(p)
+
+            if not is_prime(p):
+                print(f"{Highlight.RED}Sorry, input is not prime.")
+                continue
+            
+            return p
+
+        except ValueError:
+            print(f"{Highlight.RED}Invalid input.")    
+
+
+def ask_for_second_prime_number(p):
+    # Choose the second prime number [preferrably a large prime number]
+    while True:
+        q = input(f"{Highlight.WHITE}Enter the value of second prime q: ")
+        try:
+            q = int(q)
+            if not is_prime(q):
+                print(f"{Highlight.RED}Sorry, input is not prime.")
+                continue
+
+            if p == q:
+                print(f"{Highlight.RED}q must not be equal to your p.")
+                continue
+            
+            return q
+        except ValueError:
+            print(f"{Highlight.RED}Invalid input.")
+        
+    
